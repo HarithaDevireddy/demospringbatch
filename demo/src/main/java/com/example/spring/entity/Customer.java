@@ -14,15 +14,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "CUSTOMERS_INFO")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Customer {
 	
 	@Id
     @Column(name = "CUSTOMER_ID")
     private int id;
-    @Column(name = "FIRST_NAME")
+	@Column(name = "FIRST_NAME")
     private String firstName;
     @Column(name = "LAST_NAME")
     private String lastName;
@@ -31,10 +29,77 @@ public class Customer {
     @Column(name = "GENDER")
     private String gender;
     @Column(name = "CONTACT")
-    private String contactNo;
+    private String contact;
     @Column(name = "COUNTRY")
     private String country;
     @Column(name = "DOB")
     private String dob;
+    
+    public Customer() {
+    }
+    
+    public Customer(int id, String firstName, String lastName, String email, String gender, String contact,
+			String country, String dob) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.gender = gender;
+		this.contact = contact;
+		this.country = country;
+		this.dob = dob;
+	}
+    
+    
+    public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getDob() {
+		return dob;
+	}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+	
 
 }

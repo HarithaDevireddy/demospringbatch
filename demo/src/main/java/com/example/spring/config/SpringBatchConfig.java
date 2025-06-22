@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.example.spring.entity.Customer;
@@ -44,7 +46,7 @@ public class SpringBatchConfig {
 
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
         tokenizer.setDelimiter(",");
-        tokenizer.setNames("id", "firstName", "lastName", "email", "gender", "contactNo", "country", "dob");
+        tokenizer.setNames("id", "firstName", "lastName", "email", "gender", "contact", "country", "dob");
 
         BeanWrapperFieldSetMapper<Customer> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(Customer.class);
@@ -73,7 +75,7 @@ public class SpringBatchConfig {
                 .<Customer, Customer>chunk(10, transactionManager)
                 .reader(reader())
                 .processor(processor())
-                .writer(writer())
+                .writer(writer()).taskExecutor(taskExecutor())
                 .build();
     }
 
@@ -82,5 +84,12 @@ public class SpringBatchConfig {
         return new JobBuilder("importCustomers", jobRepository)
                 .start(step)
                 .build();
+    }
+    
+    @Bean
+    public TaskExecutor taskExecutor() {
+        SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        asyncTaskExecutor.setConcurrencyLimit(10);
+        return asyncTaskExecutor;
     }
 }
